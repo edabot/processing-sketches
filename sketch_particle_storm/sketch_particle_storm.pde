@@ -2,6 +2,8 @@ ArrayList<Particle> particles;
 ArrayList<PVector> flowField;
 int rows, cols, zone_size, initSpeed;
 float zoff, zinc, fieldInc, fieldStrength;
+int c;
+int circleRadius;
 
 void setup() {
   size(900,900, P2D);
@@ -15,10 +17,13 @@ void setup() {
   zinc = .005;
   fieldInc = .005;
   initSpeed = 7;
+  c = 0;
+  circleRadius = 400;
 }
 
 void draw() {
-  background(0, 5);
+  fill(0,150);
+  rect(0, 0, width, height);
   zoff += zinc;
   for (int x = 0; x < 1500; x++) {
     if (particles.size() < 200000) {
@@ -46,16 +51,18 @@ void draw() {
   }
   fill(0, 80);
   noStroke();
-  ellipse(width/2, height/2, 300,300);
+  ellipse(width/2, height/2, 2 * circleRadius, 2 * circleRadius);
   saveFrame("output/output-####.png");
   println(particles.size());
+  println(frameRate);
+  c = (c + 1) % 255;
 }
 
 Particle newParticle() {
   float angle = random(0, TWO_PI);
-  PVector v = new PVector(150, 0);
+  PVector v = new PVector(circleRadius, 0);
   PVector dv = new PVector(initSpeed, 0);
   v.rotate(angle);
   dv.rotate(angle);
-  return new Particle(v.x + width/2,v.y+height/2, dv.x, dv.y);
+  return new Particle(v.x + width/2,v.y+height/2, dv.x, dv.y, c);
 }

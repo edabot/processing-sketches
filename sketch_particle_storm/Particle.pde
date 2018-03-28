@@ -1,16 +1,18 @@
 class Particle {
-  PVector loc, vector;
+  PVector oldLoc, loc, vector;
   int c, s, decay;
 
-  Particle(float x,float y, float dx, float dy) {
+  Particle(float x,float y, float dx, float dy, int clr) {
     loc = new PVector(x,y);
+    oldLoc = new PVector(x,y);
     vector = new PVector(dx,dy);
-    c = int(random(0,255));
     s = 255;
+    c = clr;
     decay = 200;
   }
 
   void update() {
+    oldLoc = new PVector(loc.x, loc.y);
     int row = int(loc.y / zone_size);
     int col = int(loc.x / zone_size);
     int index = row * cols + col;
@@ -30,8 +32,8 @@ class Particle {
 
   void show() {
     colorMode(HSB);
-    stroke(c, s, s);
-    strokeWeight(2);
-    point(loc.x,loc.y);
+    stroke(c, s,s);
+    strokeWeight(1);
+    line(loc.x,loc.y, oldLoc.x, oldLoc.y);
   }
 }
