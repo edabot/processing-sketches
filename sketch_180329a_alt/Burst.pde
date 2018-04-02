@@ -1,4 +1,3 @@
-
 class Burst {
   PVector center;
   int size, clr;
