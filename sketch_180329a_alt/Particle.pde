@@ -1,7 +1,7 @@
 class Particle {
   PVector oldLoc, loc, vector;
   int clr, sb, shine, shine_countdown;
-  float friction, speed;
+  float friction, speed, zoff;
   
   Particle(float x, float y, float dx, float dy, int c, int s) {
     loc = new PVector(x,y, 0);
@@ -9,11 +9,12 @@ class Particle {
     vector = new PVector(dx, dy, 0);
 
     speed = noise(dx * 100 + x, dy * 100 + y) * random(s);
+    zoff = -100;
     clr = c;
     sb = 255;
     friction = .98;
     shine = 0;
-    shine_countdown = 8;
+    shine_countdown = 6;
   }
   
   void update() {
@@ -31,8 +32,7 @@ class Particle {
 
     speed *= friction;
     sb -= 4;
-    zinc += 1000;
-    
+    zoff += 20;    
     if (shine < 255 && shine_countdown <= 0 ) {
       shine += 40;
       sb = 255;
@@ -49,15 +49,19 @@ class Particle {
     } else {
       stroke(clr, sb, sb);
     }
-
+    beginShape();
+      vertex(loc.x,loc.y, zoff);
+      vertex(oldLoc.x, oldLoc.y, zoff);
+      vertex(oldLoc.x, oldLoc.y, zoff);
+    endShape();
+    
  
-    line(loc.x,loc.y, 0, oldLoc.x, oldLoc.y, 0);
   }
   
   boolean finished() {
     
     int m = 50;
-    return (loc.x > width + m || loc.x < -m || loc.y > height +m || loc.y < -m || speed <= .01); 
+    return (zoff > 500 || speed <= .01); 
   }
   
 }

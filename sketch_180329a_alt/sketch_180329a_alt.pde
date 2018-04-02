@@ -2,7 +2,7 @@ ArrayList<Burst> bursts;
 ArrayList<PVector> flowField;
 int interval, countdown, inc;
 int rows, cols, zone_size;
-float zoff, zinc, fieldInc;
+float zoff, zinc, fieldInc, intensity;
 
 void setup() {
   size(900,900, P3D);
@@ -11,9 +11,10 @@ void setup() {
   Burst newB = newBurst();
   bursts.add(newB);
   interval = 30;
-  countdown = 30;
+  countdown = 120;
   inc = 0;
   zone_size = 5;
+  intensity = 70;
   rows = height / zone_size;
   cols = width / zone_size;
   zoff = .001;
@@ -23,10 +24,14 @@ void setup() {
 
 void draw() {
   colorMode(RGB);
+    stroke(255);
+    noFill();
+    rotateX(noise(zoff*10)* (PI/2) - PI/4);
+    rotateY(noise(zoff *10+ 1000) * (PI/2) - PI/4);
   fill(0);
   stroke(0);
-  rect(0,0,width, height);
-  
+  background(0);
+ 
   for (int y = 0; y < rows; y++) {
     for (int x = 0; x < cols; x++) {
       float angle = noise(x * fieldInc, y * fieldInc, zoff) * PI;
@@ -39,10 +44,15 @@ void draw() {
   if (countdown <= 0) {
     Burst newB = newBurst();
     bursts.add(newB);
-    countdown = int(noise(inc)*20);
+    countdown = int(noise(inc)*intensity);
   }
   countdown--;
   inc++;
+  if (intensity > 1) {
+    
+    intensity -= .1;
+  }
+  println(intensity);
   
   for (int i = 0; i < bursts.size(); i++) {
     Burst burst = bursts.get(i);
@@ -52,8 +62,7 @@ void draw() {
       bursts.remove(i);
     }
   }
-  //saveFrame("output/output-####.png");
-  println(frameRate);
+  saveFrame("output/output-####.png");
 
 }
 
