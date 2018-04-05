@@ -2,14 +2,15 @@ class Circle{
   float x;
   float y;
   float r;
-  boolean growing = true;
-  int color;
+  boolean growing;
+  int clr;
 
   Circle(float x_, float y_) {
     x = x_;
     y = y_;
     r = 2;
-    color = int(random(360));
+    growing = true;
+    clr = int(random(360));
   }
   
   void grow() {
@@ -24,7 +25,7 @@ class Circle{
   
   void show() {
     colorMode(HSB);
-    stroke(color);
+    stroke(clr);
     strokeWeight(2);
     noFill();
     ellipse(x,y, r*2, r*2);
