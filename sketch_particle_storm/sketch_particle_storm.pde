@@ -6,7 +6,7 @@ int c;
 int circleRadius;
 
 void setup() {
-  size(900,900, P2D);
+  size(1920,1080, P2D);
   zone_size = 5;
   rows = height / zone_size;
   cols = width / zone_size;

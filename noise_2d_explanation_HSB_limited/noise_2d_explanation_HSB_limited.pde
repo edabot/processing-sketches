@@ -18,7 +18,7 @@
   int hueCenter = 180;
   int hueRange = 180;
   boolean hueCycling = true;
-  int hueSpeed = 2;
+  int hueSpeed = 3;
 
   int saturationMin = 00;
   int saturationMax = 100;
